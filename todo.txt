@@ -1,0 +1,9 @@
+diff enemy types: normal, fast, tank, shooters
+spawn director: increasing difficulty over time
+obstacles/walls
+health system
+weapon cooldown/ammo reload
+multiple weapons: long range gun + short range sword
+dash/special movement
+nonoverlapping enemies
+RL STUFF
