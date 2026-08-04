@@ -1,0 +1,25 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+
+MemoryCaptures/
+Recordings/
+
+.DS_Store
+
+.vscode/*
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Visual Studio / Rider generated files
+*.csproj
+*.sln
+*.slnx
+*.user
+*.pidb
+*.booproj
