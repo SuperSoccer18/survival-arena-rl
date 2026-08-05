@@ -1,4 +1,3 @@
-diff enemy types: normal, fast, tank, shooters
 spawn director: increasing difficulty over time
 obstacles/walls
 health system

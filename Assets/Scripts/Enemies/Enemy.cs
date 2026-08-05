@@ -6,11 +6,17 @@ public class Enemy : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float maxHealth = 1f;
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private bool shouldChase = true;
     [SerializeField] private int contactDamage = 1;
 
     private Rigidbody2D rb;
     private Transform player;
     private float currentHealth;
+
+    public Transform Player => player;
+    public Rigidbody2D Rigidbody => rb;
+    public float MoveSpeed => moveSpeed;
+    public int ContactDamage => contactDamage;
 
     private void Awake()
     {
@@ -44,7 +50,10 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        ChasePlayer();
+        if (shouldChase)
+        {
+            ChasePlayer();
+        }
     }
 
     private void ChasePlayer()
@@ -61,12 +70,7 @@ public class Enemy : MonoBehaviour
 
         if (currentHealth <= 0f)
         {
-            Die();
+            Destroy(gameObject);
         }
-    }
-
-    private void Die()
-    {
-        Destroy(gameObject);
     }
 }

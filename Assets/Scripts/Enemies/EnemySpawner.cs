@@ -2,18 +2,35 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] enemyPrefabs;
-    [SerializeField] private float spawnInterval = 2f;
+    [Header("Enemy Prefabs")]
+    [SerializeField] private GameObject normalEnemyPrefab;
+    [SerializeField] private GameObject fastEnemyPrefab;
+    [SerializeField] private GameObject tankEnemyPrefab;
+    [SerializeField] private GameObject shooterEnemyPrefab;
+
+    [Header("Spawn Timing")]
+    [SerializeField] private float initialSpawnInterval = 2f;
+    [SerializeField] private float minimumSpawnInterval = 0.5f;
+    [SerializeField] private float spawnAcceleration = 0.015f;
+
+    [Header("Arena Limits")]
     [SerializeField] private float horizontalLimit = 9f;
     [SerializeField] private float verticalLimit = 4f;
 
+    private float elapsedTime;
     private float spawnTimer;
 
     private void Update()
     {
+        elapsedTime += Time.deltaTime;
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= spawnInterval)
+        float currentInterval = Mathf.Max(
+            minimumSpawnInterval,
+            initialSpawnInterval - elapsedTime * spawnAcceleration
+        );
+
+        if (spawnTimer >= currentInterval)
         {
             SpawnEnemy();
             spawnTimer = 0f;
@@ -22,16 +39,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (enemyPrefabs == null || enemyPrefabs.Length == 0)
-        {
-            Debug.LogWarning("EnemySpawner has no enemy prefabs assigned.");
-            return;
-        }
-
+        GameObject selectedPrefab = SelectEnemyPrefab();
         Vector2 spawnPosition = GetRandomEdgePosition();
-
-        int randomIndex = Random.Range(0, enemyPrefabs.Length);
-        GameObject selectedPrefab = enemyPrefabs[randomIndex];
 
         Instantiate(
             selectedPrefab,
@@ -40,35 +49,84 @@ public class EnemySpawner : MonoBehaviour
         );
     }
 
+    private GameObject SelectEnemyPrefab()
+    {
+        float roll = Random.value;
+
+        // First 20 seconds: only normal enemies.
+        if (elapsedTime < 20f)
+        {
+            return normalEnemyPrefab;
+        }
+
+        // 20–40 seconds: normal and fast.
+        if (elapsedTime < 40f)
+        {
+            return roll < 0.7f
+                ? normalEnemyPrefab
+                : fastEnemyPrefab;
+        }
+
+        // 40–60 seconds: introduce tanks.
+        if (elapsedTime < 60f)
+        {
+            if (roll < 0.55f)
+            {
+                return normalEnemyPrefab;
+            }
+
+            if (roll < 0.8f)
+            {
+                return fastEnemyPrefab;
+            }
+
+            return tankEnemyPrefab;
+        }
+
+        // After 60 seconds: all four types.
+        if (roll < 0.4f)
+        {
+            return normalEnemyPrefab;
+        }
+
+        if (roll < 0.65f)
+        {
+            return fastEnemyPrefab;
+        }
+
+        if (roll < 0.82f)
+        {
+            return tankEnemyPrefab;
+        }
+
+        return shooterEnemyPrefab;
+    }
+
     private Vector2 GetRandomEdgePosition()
     {
         int edge = Random.Range(0, 4);
 
-        switch (edge)
+        return edge switch
         {
-            case 0:
-                return new Vector2(
-                    Random.Range(-horizontalLimit, horizontalLimit),
-                    verticalLimit
-                );
+            0 => new Vector2(
+                Random.Range(-horizontalLimit, horizontalLimit),
+                verticalLimit
+            ),
 
-            case 1:
-                return new Vector2(
-                    Random.Range(-horizontalLimit, horizontalLimit),
-                    -verticalLimit
-                );
+            1 => new Vector2(
+                Random.Range(-horizontalLimit, horizontalLimit),
+                -verticalLimit
+            ),
 
-            case 2:
-                return new Vector2(
-                    -horizontalLimit,
-                    Random.Range(-verticalLimit, verticalLimit)
-                );
+            2 => new Vector2(
+                -horizontalLimit,
+                Random.Range(-verticalLimit, verticalLimit)
+            ),
 
-            default:
-                return new Vector2(
-                    horizontalLimit,
-                    Random.Range(-verticalLimit, verticalLimit)
-                );
-        }
+            _ => new Vector2(
+                horizontalLimit,
+                Random.Range(-verticalLimit, verticalLimit)
+            )
+        };
     }
 }
