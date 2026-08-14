@@ -22,12 +22,16 @@ public class EnemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out PlayerHealth playerHealth))
+        if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
+            playerHealth.TakeDamage(damage);
+            Destroy(gameObject);
             return;
         }
 
-        playerHealth.TakeDamage(damage);
-        Destroy(gameObject);
+        if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        {
+            Destroy(gameObject);
+        }
     }
 }

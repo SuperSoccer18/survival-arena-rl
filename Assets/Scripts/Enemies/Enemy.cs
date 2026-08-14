@@ -6,7 +6,6 @@ public class Enemy : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private float maxHealth = 1f;
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private bool shouldChase = true;
     [SerializeField] private int contactDamage = 1;
 
     private Rigidbody2D rb;
@@ -40,28 +39,6 @@ public class Enemy : MonoBehaviour
         }
 
         player = playerObject.transform;
-    }
-
-    private void FixedUpdate()
-    {
-        if (player == null)
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
-
-        if (shouldChase)
-        {
-            ChasePlayer();
-        }
-    }
-
-    private void ChasePlayer()
-    {
-        Vector2 direction =
-            ((Vector2)player.position - rb.position).normalized;
-
-        rb.linearVelocity = direction * moveSpeed;
     }
 
     public void TakeDamage(float damage)

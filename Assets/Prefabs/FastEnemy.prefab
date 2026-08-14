@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2559936505106277672, guid: ef36aa3b8da3d4c3b9d7d85a6f646b09, type: 3}
       propertyPath: m_Color.g
-      value: 0.50850093
+      value: 0.44482213
       objectReference: {fileID: 0}
     - target: {fileID: 2559936505106277672, guid: ef36aa3b8da3d4c3b9d7d85a6f646b09, type: 3}
       propertyPath: m_Color.r
@@ -79,5 +79,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3126086352095745052, guid: ef36aa3b8da3d4c3b9d7d85a6f646b09, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6059867683449755105}
   m_SourcePrefab: {fileID: 100100000, guid: ef36aa3b8da3d4c3b9d7d85a6f646b09, type: 3}
+--- !u!1 &5459624961855770544 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3126086352095745052, guid: ef36aa3b8da3d4c3b9d7d85a6f646b09, type: 3}
+  m_PrefabInstance: {fileID: 6964373722750376876}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6059867683449755105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5459624961855770544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c344c26926e647268e4728b9d8fd9cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaseMovement
+  environmentLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  detectionDistance: 1.5
+  castRadius: 0.25
+  sideCastAngle: 40
+  avoidanceStrength: 1.5
+  stuckTimeThreshold: 0.6
+  escapeDuration: 0.5
+  maxEscapeAngle: 120
+  maxEscapeAttempts: 6

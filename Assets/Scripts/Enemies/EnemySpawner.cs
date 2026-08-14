@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
     [Header("Arena Limits")]
     [SerializeField] private float horizontalLimit = 9f;
     [SerializeField] private float verticalLimit = 4f;
+    [SerializeField] private bool testShooter = false;
 
     private float elapsedTime;
     private float spawnTimer;
@@ -51,6 +52,12 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject SelectEnemyPrefab()
     {
+        // If testing the shooter enemy, always spawn it.
+        if (testShooter)
+        {
+            return shooterEnemyPrefab;
+        }
+
         float roll = Random.value;
 
         // First 20 seconds: only normal enemies.
